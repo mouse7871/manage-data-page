@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      rel="icon"
+      href="https://cdn.icon-icons.com/icons2/3127/PNG/96/emoji_laugh_smile_emoticon_happy_icon_192064.png"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./index.css" />
+    <title>Hello, IamFine!</title>
+  </head>
+  <body>
+    <header>
+      <div>
+        <img
+          src="https://static.wixstatic.com/media/0df4f9_85e8825875354e11add0c41ee835f544~mv2.png/v1/fill/w_35,h_98,al_c,q_85,enc_auto/logo.png"
+          alt="아이엠파인 로고"
+        />
+      </div>
+      <div>아이엠파인 SD팀 지원자 이시은</div>
+    </header>
+    <div class="container">
+      <div class="container-box">
+        <div class="title-box"><span>1. </span><span>그래프</span></div>
+        <div class="content-box">
+          <canvas id="graph-box"></canvas>
+        </div>
+      </div>
+      <div class="container-box">
+        <div class="title-box"><span>2. </span><span>값 편집</span></div>
+        <div class="content-box">
+          <table id="value-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>값</th>
+                <th></th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+      <div class="container-box">
+        <div class="title-box"><span>3. </span><span>값 추가</span></div>
+        <div id="insert-box" class="content-box">
+          <input type="number" id="index" class="input-box" placeholder="ID" />
+          <input
+            type="number"
+            id="value"
+            class="input-box"
+            placeholder="VALUE"
+          />
+          <input type="button" id="btn-insert" class="btn-add" value="Add" />
+        </div>
+      </div>
+      <div class="container-box">
+        <div class="title-box"><span>4. </span><span>값 고급 편집</span></div>
+        <div class="content-box">
+          <textarea id="json-box"></textarea>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <div>Sine 😊</div>
+      <div>Copyrightⓒ2023-10 / mouse7871@naver.com</div>
+    </footer>
+    <script src="./main.js"></script>
+  </body>
+</html>

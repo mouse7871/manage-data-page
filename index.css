@@ -1,0 +1,233 @@
+:root {
+  /* Colors */
+  --white-color: #fff;
+  --black-color: #140a00;
+  --blue-color: #045fd4;
+  --red-color: #ff0000;
+  --red-light-color: #fcd3d3;
+  --grey-color: #c9c9c9;
+  --grey-dark-color: #909090;
+  --grey-light-color: #e9e9e9;
+
+  /* Spacing */
+  --spacing-big: 30px;
+  --spacing-large: 20px;
+  --spacing-medium: 10px;
+  --spacing-small: 6px;
+  --spacing-micro: 4px;
+
+  /* Font Size */
+  --font-regular: 16px;
+  --font-medium: 14px;
+  --font-small: 12px;
+  --font-micro: 10px;
+
+  /* Components Size */
+  --size-big: 30px;
+  --size-large: 20px;
+  --size-medium: 10px;
+  --size-small: 6px;
+  --size-micro: 4px;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  background-color: transparent;
+}
+
+/* header 및 footer 디자인 */
+header,
+footer {
+  background-color: var(--black-color);
+  color: var(--white-color);
+}
+header {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-medium) var(--spacing-large);
+  margin-bottom: var(--spacing-medium);
+  font-weight: 900;
+}
+header img {
+  height: var(--size-big);
+}
+footer {
+  margin-top: 200px;
+  padding: var(--spacing-big);
+  font-size: var(--font-small);
+}
+footer div:first-child {
+  font-size: var(--font-regular);
+  margin-bottom: var(--spacing-small);
+  font-weight: 900;
+}
+
+/* 전체 콘테이너 - PC 버전(600px 이상) */
+.container {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 40% 40% 20%;
+  max-width: 900px;
+  grid-column-gap: var(--spacing-big);
+  margin: auto;
+  width: 100%;
+  margin-top: 100px;
+  padding: 0 var(--spacing-big);
+}
+.container-box:nth-child(1) {
+  grid-column: 1 / 3;
+  order: 1;
+  width: 100%;
+  max-width: 900px;
+}
+.container-box:nth-child(2) {
+  order: 2;
+}
+.container-box:nth-child(3) {
+  order: 4;
+}
+.container-box:nth-child(4) {
+  order: 3;
+}
+
+/* 영역 별 타이틀 */
+.title-box {
+  margin-bottom: var(--spacing-medium);
+  font-weight: 700;
+}
+.container-box:nth-child(3) .title-box {
+  margin-bottom: 0;
+}
+
+/* 영역 별 콘텐츠 박스 */
+.content-box {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: flex-end;
+}
+.content-box input[type="button"].btn-add:last-child {
+  margin-top: var(--spacing-medium);
+}
+
+/* 반응형 디자인 - 600px 기준 */
+@media (max-width: 600px) {
+  /* 전체 콘테이너 - 모바일 버전(600px 이하) */
+  .container,
+  .container-box {
+    display: flex;
+    flex-direction: column;
+  }
+  .container-box {
+    margin-bottom: 50px;
+    max-width: 600px;
+  }
+  .container-box:nth-child(3) {
+    order: 3;
+  }
+  .container-box:nth-child(4) {
+    order: 4;
+  }
+}
+
+/* 1. 그래프 박스 */
+#graph-box {
+  background-color: var(--grey-light-color);
+  width: 100%;
+  height: 300px;
+}
+
+/* 2. 값 편집 테이블 및 입력 박스 */
+table#value-table,
+.input-table {
+  width: 100%;
+  height: var(--size-medium);
+  text-align: center;
+  font-size: var(--font-medium);
+}
+table#value-table th {
+  background-color: var(--grey-dark-color);
+  color: var(--white-color);
+}
+table#value-table tbody tr:nth-child(odd) td {
+  background-color: var(--grey-light-color);
+}
+table#value-table tbody tr:nth-child(even) td {
+  background-color: var(--grey-color);
+}
+table#value-table tbody tr td .input-table {
+  margin-left: 2%;
+  height: 100%;
+}
+
+/* 3. 값 추가 입력 박스 */
+#insert-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+  max-width: 600px;
+}
+#insert-box .input-box {
+  width: 20%;
+  height: 100%;
+  margin-right: var(--spacing-small);
+}
+#insert-box #value {
+  width: 80%;
+}
+
+/* 4. 값 고급 편집 영역 입력 박스 */
+textarea#json-box {
+  width: 100%;
+  border: 2px solid var(--black-color);
+  padding: var(--spacing-medium);
+  background-color: var(--grey-light-color);
+}
+
+/* input 및 button 추가 디자인 */
+input {
+  margin: 0;
+  outline: none;
+  border: 0;
+}
+button:hover,
+input[type="button"]:hover {
+  cursor: pointer;
+}
+.input-box,
+.btn-add {
+  border: 2px solid var(--black-color);
+  padding: var(--spacing-small);
+  font-size: var(--font-regular);
+}
+.input-box::placeholder {
+  font-style: italic;
+}
+
+/* button 추가 디자인 */
+.btn-add {
+  margin-left: var(--size-medium);
+  border-radius: var(--size-micro);
+  border: 2px solid var(--red-color);
+  color: var(--red-color);
+  background-color: var(--red-light-color);
+  font-weight: 900;
+}
+.btn-add:hover {
+  color: var(--white-color);
+  background-color: var(--red-color);
+}
+.btn-del {
+  background-color: transparent;
+  border: 0 solid #000;
+  color: var(--red-color);
+}
