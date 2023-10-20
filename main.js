@@ -1,5 +1,7 @@
+"use strict";
+
 // 더미데이터
-const listObj = [
+let listObj = [
   {
     id: 0,
     value: 75,
@@ -22,7 +24,7 @@ const listObj = [
   },
 ];
 const graph = document.getElementById("graph-box"); // 1. 그래프
-const table = document.getElementById("value-table"); // 2. 값 편집 - 테이블
+const table = document.getElementById("value-table"); // 3. 값 편집 - 테이블
 const json = document.getElementById("json-box"); // 4. 값 고급 편집 - JSON
 let btnAdded = false; // 초기로딩시 버튼 생성용
 
@@ -49,38 +51,94 @@ const addBtnToElement = (element, value = "btn", className, clickHandler) => {
 
 /** 그래프 업데이트 function */
 const updateGraph = (listObj) => {
-  const ctx = graph.getContext("2d");
-  ctx.clearRect(0, 0, graph.width, graph.height);
-  const margin = 20;
-  const width = graph.width - 2 * margin;
-  const height = graph.height - 2 * margin;
+  const svgNS = "http://www.w3.org/2000/svg"; // SVG 네임스페이스
+  const space = 50; // 여백 설정
 
-  listObj.map((obj, index) => {
-    const barWidth = width / (listObj.length * 2);
-    const x = margin + index * barWidth * 2 + 20;
-    const barHeight = (obj.value / 100) * height;
-    const y = graph.height - margin - barHeight;
+  // 너비, 높이 가져오기
+  const width = graph.clientWidth; // 그래프 너비 가져오기
+  const height = graph.clientHeight; // 그래프 높이 가져오기
 
-    ctx.fillStyle = "#045fd4"; // --blue-color 변수와 값 같음
-    ctx.fillRect(x, y, barWidth, barHeight);
+  // 모든 자식 요소 삭제
+  while (graph.firstChild) {
+    graph.removeChild(graph.firstChild);
+  }
 
-    // x축 눈금과 레이블
-    ctx.fillStyle = "black";
-    ctx.fillText(obj.id, x + barWidth - 15, graph.height - margin + 15);
+  // 그래프 배경 색상 지정
+  // const graphBg = document.createElementNS(svgNS, "rect");
+  // graphBg.setAttribute("width", "100%"); // 배경 너비(전체)
+  // graphBg.setAttribute("height", "100%"); // 배경 높이(전체)
+  // graphBg.setAttribute("fill", "#e9e9e9"); // 배경색상 - var(--grey-light-color)와 같음
+  // graph.appendChild(graphBg);
 
-    // y축 눈금과 레이블
-    if (index % 20 === 0) {
-      ctx.fillText(100 - index, margin - 10, y + 5);
-    }
+  // X축 생성
+  const axisX = document.createElementNS(svgNS, "line");
+  axisX.setAttribute("x1", space); // 왼쪽 꼭지점 x
+  axisX.setAttribute("y1", height - space); // 왼쪽 꼭지점 y
+  axisX.setAttribute("x2", width - space / 2); // 오른쪽 꼭지점 x
+  axisX.setAttribute("y2", height - space); // 오른쪽 꼭지점 y
+  axisX.classList.add("graph-axis");
+  graph.appendChild(axisX);
+
+  // Y축 생성
+  const axisY = document.createElementNS(svgNS, "line");
+  axisY.setAttribute("x1", space); // 상단 꼭지점 x
+  axisY.setAttribute("y1", space / 2); // 상단 꼭지점 y
+  axisY.setAttribute("x2", space); // 하단 꼭지점 x
+  axisY.setAttribute("y2", height - space); // 하단 꼭지점 y
+  axisY.classList.add("graph-axis");
+  graph.appendChild(axisY);
+
+  // 0점 생성
+  const textZero = document.createElementNS(svgNS, "text");
+  textZero.setAttribute("x", space / 2); // 꼭지점 x
+  textZero.setAttribute("y", height - space); // 꼭지점 y
+  textZero.textContent = "0";
+  graph.appendChild(textZero);
+
+  // 그래프 영역 생성 및 필요한 값 설정
+  let maxValue = Math.max(...listObj.map((obj) => obj.value)); // value 중 가장 큰 값 탐색
+  maxValue = maxValue > 100 ? maxValue : 100; // 100보다 작으면 100을 제일 큰 값으로 설정
+  const contentWidth = (width - space * 1.5) / listObj.length; // 그래프 영역 너비
+  const contentHeight = height - space * 1.5; // 그래프 영역 높이
+  const barWidth = contentWidth / 5; // 막대 너비
+  const barPerHeight = contentHeight / maxValue; // 값 1 당 높이 길이
+
+  // 그래프 영역 막대 그리기
+  listObj.map((obj, i) => {
+    const bar = document.createElementNS(svgNS, "rect");
+    const barHeight = barPerHeight * obj.value; // 막대 높이 계산
+    const barX = contentWidth * i + contentWidth / 2 + space - barWidth / 2; // 막대 x위치 계산
+    const barY = contentHeight - barHeight + space / 2; // 막대 y위치 계산
+    bar.setAttribute("x", barX); // 막대 x 꼭지점
+    bar.setAttribute("y", barY); // 막대 y 꼭지점
+    bar.setAttribute("width", barWidth); // 막대 너비
+    bar.setAttribute("height", barHeight); // 막대 높이
+    bar.classList.add("graph-bar");
+    graph.appendChild(bar);
+
+    // 그래프 X축 레이블 생성
+    const textX = document.createElementNS(svgNS, "text");
+    textX.setAttribute("x", barX + barWidth / 2 - 5); // 레이블 x 꼭지점
+    textX.setAttribute("y", height - space / 2); // 레이블 y 꼭지점
+    textX.textContent = obj.id; // id 값으로 레이블 생성
+    graph.appendChild(textX);
   });
 
-  // x축과 y축
-  ctx.beginPath();
-  ctx.moveTo(margin + 10, graph.height - margin);
-  ctx.lineTo(margin + 10, margin);
-  ctx.moveTo(margin + 10, graph.height - margin);
-  ctx.lineTo(graph.width - margin, graph.height - margin);
-  ctx.stroke();
+  // 최댓값 기준점 생성(100이하면 100으로 생성)
+  const textMark = document.createElementNS(svgNS, "text");
+  textMark.setAttribute("x", space * 0.2); // 꼭지점 x
+  textMark.setAttribute("y", space * 0.8); // 꼭지점 y
+  textMark.textContent = maxValue;
+  graph.appendChild(textMark);
+
+  // 절반 기준점 생성
+  const textHalf = document.createElementNS(svgNS, "line");
+  textHalf.setAttribute("x1", space - 5); // 왼쪽 꼭지점 x
+  textHalf.setAttribute("y1", contentHeight / 2 + space / 2); // 왼쪽 꼭지점 y
+  textHalf.setAttribute("x2", space); // 오른쪽 꼭지점 x
+  textHalf.setAttribute("y2", contentHeight / 2 + space / 2); // 오른쪽 꼭지점 y
+  textHalf.classList.add("graph-axis");
+  graph.appendChild(textHalf);
 };
 
 /** JSON 업데이트 function */
@@ -165,8 +223,8 @@ const updateTable = (listObj) => {
       alert("편집 값으로 변경했습니다."); // 값 변경 확인창
       updateObject(listObj);
     });
-    updateObject(listObj);
   }
+  updateObject(listObj);
   table.appendChild(tbody);
 };
 
@@ -179,7 +237,7 @@ insertBtn.addEventListener("click", (event) => {
     ? Number(indexInput.value)
     : Number(listObj[listObj.length - 1].id) + 1; // index 값 없을 경우 임의로 id 생성
   const value = Number(valueInput.value);
-  
+
   // 값 입력 여부 유효성검사
   if (value) {
     listObj.push({ id, value }); // 사용자가 입력한 값 삽입
@@ -197,3 +255,10 @@ insertBtn.addEventListener("click", (event) => {
 
 updateTable(listObj); // 초기 로딩 시 실행
 btnAdded = true; // 초기 로딩 후 버튼 생성 완료 여부
+
+// 윈도우 리사이즈 이벤트 발생할 경우 -> 반응형 너비조정
+// window.addEventListener("resize", () => {
+//   if (graph.clientWidth < 800) {
+//     updateGraph(listObj);
+//   }
+// });

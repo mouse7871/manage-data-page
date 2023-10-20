@@ -20,15 +20,35 @@
       </div>
       <div>아이엠파인 SD팀 지원자 이시은</div>
     </header>
+
     <div class="container">
+
+      <!-- 1. 그래프 : 막대차트  -->
       <div class="container-box">
         <div class="title-box"><span>1. </span><span>그래프</span></div>
         <div class="content-box">
-          <canvas id="graph-box"></canvas>
+          <svg id="graph-box" id="bar-chart"></svg>
         </div>
       </div>
+      
+      <!-- 2. 값 추가 : 입력창  -->
       <div class="container-box">
-        <div class="title-box"><span>2. </span><span>값 편집</span></div>
+        <div class="title-box"><span>2. </span><span>값 추가</span></div>
+        <div id="insert-box" class="content-box">
+          <input type="number" id="index" class="input-box" placeholder="ID" />
+          <input
+          type="number"
+          id="value"
+          class="input-box"
+          placeholder="VALUE"
+          />
+          <input type="button" id="btn-insert" class="btn-add" value="Add" />
+        </div>
+      </div>
+      
+      <!-- 3. 값 편집 : 테이블  -->
+      <div class="container-box">
+        <div class="title-box"><span>3. </span><span>값 편집</span></div>
         <div class="content-box">
           <table id="value-table">
             <thead>
@@ -41,30 +61,22 @@
           </table>
         </div>
       </div>
-      <div class="container-box">
-        <div class="title-box"><span>3. </span><span>값 추가</span></div>
-        <div id="insert-box" class="content-box">
-          <input type="number" id="index" class="input-box" placeholder="ID" />
-          <input
-            type="number"
-            id="value"
-            class="input-box"
-            placeholder="VALUE"
-          />
-          <input type="button" id="btn-insert" class="btn-add" value="Add" />
-        </div>
-      </div>
+      
+      <!-- 4. 값 고급 편집 : JSON  -->
       <div class="container-box">
         <div class="title-box"><span>4. </span><span>값 고급 편집</span></div>
         <div class="content-box">
           <textarea id="json-box"></textarea>
         </div>
       </div>
+
     </div>
+
     <footer>
       <div>Sine 😊</div>
       <div>Copyrightⓒ2023-10 / mouse7871@naver.com</div>
     </footer>
+
     <script src="./main.js"></script>
   </body>
 </html>
