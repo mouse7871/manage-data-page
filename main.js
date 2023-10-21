@@ -210,6 +210,12 @@ const updateTable = (listObj) => {
     // });
   });
 
+  // 윈도우 리사이즈 이벤트 발생할 경우 -> 반응형 너비조정
+  window.addEventListener("resize", () => {
+    updateGraph(listObj);
+  });
+
+  // 초기 로딩 여부 확인
   const existingTbody = table.querySelector("tbody");
   if (existingTbody || btnAdded) {
     table.removeChild(existingTbody); // tbody에 데이터가 있으면 삭제
@@ -224,8 +230,8 @@ const updateTable = (listObj) => {
       updateObject(listObj);
     });
   }
-  updateObject(listObj);
   table.appendChild(tbody);
+  updateObject(listObj);
 };
 
 // 하단의 add(추가) 버튼 가져오기 + 이벤트 등록
@@ -255,10 +261,3 @@ insertBtn.addEventListener("click", (event) => {
 
 updateTable(listObj); // 초기 로딩 시 실행
 btnAdded = true; // 초기 로딩 후 버튼 생성 완료 여부
-
-// 윈도우 리사이즈 이벤트 발생할 경우 -> 반응형 너비조정
-// window.addEventListener("resize", () => {
-//   if (graph.clientWidth < 800) {
-//     updateGraph(listObj);
-//   }
-// });
